@@ -17,10 +17,10 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UsersRepository $usersRepository)
     {
-        $users = Users::paginate(15);
-        return UsersResource::collection($users);
+       $users = $usersRepository->getAll();
+       return $users;
     }
 
     /**
