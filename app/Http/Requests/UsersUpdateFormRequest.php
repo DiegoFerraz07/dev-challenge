@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests;
 
-use App\Models\Users;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class UsersUpdateFormRequest extends FormRequest

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Client\UsersFormRequest;
-use App\Http\Requests\Users\UsersAddFormRequest;
-use App\Http\Requests\Users\UsersDeleteFormRequest;
-use App\Http\Requests\Users\UsersEditFormRequest;
-use App\Http\Requests\Users\UsersUpdateFormRequest;
-use App\Models\Users;
+use App\Http\Requests\Users\UsersFormRequest;
+use App\Http\Requests\UsersAddFormRequest;
+use App\Http\Requests\UsersDeleteFormRequest;
+use App\Http\Requests\UsersEditFormRequest;
+use App\Http\Requests\UsersUpdateFormRequest;
+use App\Models\User;
 use App\Http\Resources\UsersResource;
 use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;

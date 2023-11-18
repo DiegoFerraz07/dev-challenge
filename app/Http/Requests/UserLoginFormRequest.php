@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Users;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UsersAddFormRequest extends FormRequest
+class UserLoginFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class UsersAddFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email',
             'password' => 'required|string|min:8',
         ];
     }
@@ -32,8 +31,6 @@ class UsersAddFormRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => "é obrigatório enviar um nome",
-            'name.string' => "é obrigatório que seja um texto",
             'email.required' => "é obrigatório enviar um email",
             'email.string' => "é obrigatório que seja um email valido",
             'password.required' => "é obrigatório enviar uma senha",

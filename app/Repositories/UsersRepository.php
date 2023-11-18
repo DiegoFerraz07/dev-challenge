@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\Users\UsersAddFormRequest;
-use App\Http\Requests\Users\UsersUpdateFormRequest;
+use App\Http\Requests\UsersAddFormRequest;
+use App\Http\Requests\UsersUpdateFormRequest;
 use App\Interfaces\UsersRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use App\Models\Users;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -15,34 +15,38 @@ class UsersRepository implements UsersRepositoryInterface
 
     public function getAll(): Collection
     {
-        return Users::all()
+        return User::all()
             ->sortByDesc('id');
     }
 
+    public function getByEmail(string $email): User|null
+    {
+        return User::where('email', $email)->first();
+    }
+
     /**
-     * find a supply by name or CNPJ and return first 10
      *
      * @param string $search
      *
-     * @return Collection<Users>
+     * @return Collection<User>
      */
     public function find(string $search): Collection
     {
-        return Users::where(function($q) use ($search) {
+        return User::where(function($q) use ($search) {
             $q->where("name", "LIKE", "%$search%")
                 ->orWhere("email", $search);
         })->limit(10)->get();
     }
 
     /**
-     * Delete a specific users
+     * Delete a specific user
      * @param int $id
      *
      * @return bool
      */
     public function delete(int $id): bool
     {
-        $deleted = Users::where('id', $id)
+        $deleted = User::where('id', $id)
             ->delete();
 
         return $deleted
@@ -54,14 +58,15 @@ class UsersRepository implements UsersRepositoryInterface
      * Store a new supply
      * @param UsersAddFormRequest $request
      *
-     * @return bool
+     * @return User|null
      */
-    public function store(UsersAddFormRequest $request): bool
+    public function store(UsersAddFormRequest $request): User|null
     {
         try {
-            $users = new Users();
-            $users->fillUsers($request);
-            return $users->save();
+            $user = new User();
+            $user->fillUser($request);
+            $user->save();
+            return $user;
         } catch(Exception $e) {
             Log::error($e->getMessage() . $e->getTraceAsString());
             return false;
@@ -73,11 +78,11 @@ class UsersRepository implements UsersRepositoryInterface
      * get a specific users
      * @param int $id
      *
-     * @return Users|null
+     * @return User|null
      */
-    public function get(int $id): Users|null
+    public function get(int $id): User|null
     {
-        return Users::where('id', $id)->first();
+        return User::where('id', $id)->first();
     }
 
 
@@ -91,7 +96,7 @@ class UsersRepository implements UsersRepositoryInterface
     {
         try {
             $users = $this->get($request->id);
-            $users->fillUsers($request);
+            $users->fillUser($request);
             return $users->update();
         } catch(Exception $e) {
             Log::error($e->getMessage() . $e->getTraceAsString());
