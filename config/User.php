@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Requests\UsersAddFormRequest;
-use App\Http\Requests\UsersUpdateFormRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,7 +45,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function fillUser(UsersAddFormRequest|UsersUpdateFormRequest $request): User
+    public function fillUser(UsersAddFormRequest $request): User
     {
         $this->name = $request->name;
         $this->email = $request->email;

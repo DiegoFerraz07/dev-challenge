@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Http\Requests\UsersAddFormRequest;
+use App\Http\Requests\UsersFollowFormRequest;
 use App\Http\Requests\UsersUpdateFormRequest;
 use App\Interfaces\UsersRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\User;
+use App\Models\UserFollow;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -55,7 +57,7 @@ class UsersRepository implements UsersRepositoryInterface
     }
 
     /**
-     * Store a new supply
+     * Store a new user
      * @param UsersAddFormRequest $request
      *
      * @return User|null
@@ -88,7 +90,7 @@ class UsersRepository implements UsersRepositoryInterface
 
     /**
      * Store a new user
-     * @param UsersAddFormRequest $request
+     * @param UsersUpdateFormRequest $request
      *
      * @return bool
      */
@@ -104,4 +106,16 @@ class UsersRepository implements UsersRepositoryInterface
         }
     }
 
+    public function follow(UsersFollowFormRequest $request) : bool
+    {
+        try {
+            $follow = new UserFollow();
+            $follow->fillFollow($request);
+            $follow->save();
+            return true;
+        } catch(Exception $e) {
+            Log::error($e->getMessage() . $e->getTraceAsString());
+            return false;
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests;
 
 use App\Rules\ExistClientRule;
 use App\Rules\ExistUsersRule;

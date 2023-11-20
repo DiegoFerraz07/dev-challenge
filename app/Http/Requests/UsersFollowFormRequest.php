@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UsersFormRequest extends FormRequest
+class UsersFollowFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +22,10 @@ class UsersFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'required|string',
+            'id' => 'required|integer',
+            'user_id_follow'=> 'required|integer'
         ];
     }
-
-
-    public function messages()
-    {
-        return [
-            'search.string' => "é obrigatório que seja um texto",
-        ];
-    }
-
 
     /**
      * Prepare the data for validation.
@@ -44,11 +34,10 @@ class UsersFormRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $search = trim($this->search);
+        $id = auth('sanctum')->user()->id;
 
         $this->merge([
-            'search' => $search
+            'id' => $id
         ]);
     }
-
 }

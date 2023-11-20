@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Http\Requests\UsersAddFormRequest;
+use App\Http\Requests\UsersFollowFormRequest;
 use App\Http\Requests\UsersUpdateFormRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,4 +16,5 @@ interface UsersRepositoryInterface
     public function delete(int $id): bool;
     public function store(UsersAddFormRequest $request): User|null;
     public function update(UsersUpdateFormRequest $request): bool;
+    public function follow(UsersFollowFormRequest $request): bool;
 }

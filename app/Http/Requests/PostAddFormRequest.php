@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UsersFormRequest extends FormRequest
+class PostAddFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,31 +23,15 @@ class UsersFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'required|string',
+            'comments' => 'required|string|max:280',
         ];
     }
-
 
     public function messages()
     {
         return [
-            'search.string' => "é obrigatório que seja um texto",
+            'comments.required' => "é obrigatório enviar um texto",
+            'comments.string' => "é obrigatório que seja um texto",
         ];
     }
-
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $search = trim($this->search);
-
-        $this->merge([
-            'search' => $search
-        ]);
-    }
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('users')->group(function () {
+Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     // List users
     Route::get('/', [UsersController::class, 'index']);
 
@@ -35,7 +36,19 @@ Route::prefix('users')->group(function () {
 
     // Delete users
     Route::delete('/{id}', [UsersController::class, 'delete']);
+
+    //Follow users
+    Route::post('/follow', [UsersController::class,'follow']);
 });
+
+Route::prefix('posts')->middleware('auth:sanctum')->group(function (){
+    // List all posts
+    Route::get('/all', [PostController::class, 'list']);
+
+    // List last posts
+    Route::get('/last', [PostController::class, 'last']);
+});
+
 //rigistration
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -45,3 +58,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //search user
 Route::post('/me', [AuthController::class, 'me']);
+
+
